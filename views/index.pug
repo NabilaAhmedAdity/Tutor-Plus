@@ -1,0 +1,30 @@
+extends flexLayout.pug
+
+block header
+	include layoutOne.pug
+
+block content
+	each value, indx in users
+		.card#external-card
+			.card-block
+				.media
+					img.d-flex.mr-3(src="...")
+					.media-body
+						h5.mt-0 !{value.name}
+						p Subject:
+						p Class:
+						a#trigger(href='#') More information
+			div#pop-up(style="display: none;")
+				.card#internal-card
+					.card-block
+						h4.card-title !{value.name}
+						p.card-text Educational Background:
+						p.card-text Experience:
+						p.card-text Current Address:
+						p.card-text Available Time:
+						p.card-text Minimum Rate:
+						p.card-text Contact Number:
+
+block scripts
+	script(src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js")
+	script(src="./../public/indexScript.js")
