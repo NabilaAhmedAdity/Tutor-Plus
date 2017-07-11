@@ -14,8 +14,8 @@ block content
 						h4.card-title Login
 						form(method="post" action="/login")
 							.form-group
-								input(type="text" name="email" placeholder="Email").form-control
+								input(type="text" name="email" placeholder="Email" required).form-control
 							.form-group
-								input.mb-3(type="password" name="password" placeholder="Password").form-control
+								input.mb-3(type="password" name="password" placeholder="Password" required).form-control
 							.form-group
 								input.btn.btn-primary(type="submit", value="Login")

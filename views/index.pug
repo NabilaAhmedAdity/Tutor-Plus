@@ -1,7 +1,10 @@
 extends flexLayout.pug
 
 block header
-	include layoutOne.pug
+	if session.login === true
+		include layoutIn.pug
+	else
+		include layoutOut.pug
 
 block content
 	each value, indx in users

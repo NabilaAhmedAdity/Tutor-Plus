@@ -25,6 +25,14 @@ require('./models/fileModel.js');
 
 /* Route */
 require('./controllers/index.js').addRouter(app);
+require('./controllers/profile.js').addRouter(app);
+
+//Express error handling middleware
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+  next();
+});
 
 // If no route match, shows 404 error
 app.get('*', function(req, res) {
