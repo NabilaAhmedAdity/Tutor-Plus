@@ -19,6 +19,64 @@ block content
 				i.fa.fa-plus(aria-hidden="true")
 	.card
 		.card-block
+			p <b>Educational Background:</b>
+			ul#educationalBackgroundList
+				each value, index in user.educationalBackground
+					li !{value}
+			a.ml-4#educationalBackground(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Experiences:</b>
+			ul#experiencesList
+				each value, index in user.experiences
+					li !{value}
+			a.ml-4#experiences(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Times:</b>
+			ul#timesList
+				each value, index in user.times
+					li !{value}
+			a.ml-4#times(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Contact Number:</b>
+			ul#contactNumbersList
+				each value, index in user.contactNumbers
+					li !{value}
+			a.ml-4#contactNumbers(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Current Address:</b>
+			p.ml-4#currentAddress !{user.currentAddress}
+			a.ml-4#currentAddress(href='javascript:;')
+				i.fa.fa-pencil-square-o(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Awards and Accomplishments:</b>
+			ul#awardsAndAccomplishmentsList
+				each value, index in user.awardsAndAccomplishments
+					li !{value}
+			a.ml-4#awardsAndAccomplishments(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
+			p <b>Scan Copy of Certificates:</b>
+			ul#certificatesList
+				each value, index in user.certificates
+					li !{value.path}
+			form.form-inline(enctype="multipart/form-data")
+				.custom-file
+					input.cutom-file-input#file(type="file" name="file")
+					span.custom-file-control
+				a.ml-4#certificates(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+	.card
+		.card-block
 			a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
 
 block scripts

@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
 	classesAndSubjects: [{
 		type: String,
 	}],
-	backgrounds: [{
+	educationalBackground: [{
 		type: String,
 	}],
 	experiences: [{
@@ -28,9 +28,6 @@ const userSchema = new mongoose.Schema({
 	times: [{
 		type: String,
 	}],
-	minimumRate: {
-		type: String,
-	},
 	contactNumbers: [{
 		type: String,
 	}],
@@ -44,7 +41,7 @@ const userSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
         ref: 'File'
 	}],
-	resources:[{
+	sampleResources:[{
 		type: mongoose.Schema.Types.ObjectId,
         ref: 'File'
 	}],
