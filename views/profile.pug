@@ -11,17 +11,19 @@ block content
 	.card
 		.card-block
 			p <b>Classes and Subjects:</b>
-			ul
+			ul#classesAndSubjectsList
 				each value, index in user.classesAndSubjects
 					li !{value}
 				//a(href='javascript:;' onclick='addClassesAndSubjects();') Add
-				a#classesAndSubjects(href='javascript:;') Add
+			a.ml-4#classesAndSubjects(href='javascript:;')
+				i.fa.fa-plus(aria-hidden="true")
 	.card
 		.card-block
 			a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
 
 block scripts
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+	//To pass variable from jade template file to below script file
 	script.
 		var uid = "#{session.uid}";
 	script(src="../../public/profileEditScript.js")

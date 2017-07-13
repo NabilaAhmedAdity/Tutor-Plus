@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const dburl = require('../secret.js').dburl;
 
 const promise = mongoose.connect(dburl, {
-  useMongoClient: true,
+  useMongoClient: false,
 });
 
 promise.then(function(err) {
