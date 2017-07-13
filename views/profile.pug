@@ -4,9 +4,24 @@ block header
 	include layoutIn.pug
 
 block content
-	.border-1.p-3.mb-3
-		h3 Profile:
-		p <b>Name:</b>		!{user.name}
-		p <b>Email:</b>		!{user.email}
-		a.mr-2.mr-3(href="/"+session.uid+"/profile/edit", role="button") Edit
-		a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
+	.card
+		.card-block
+			p <b>Name:</b>		!{user.name}
+			p <b>Email:</b>		!{user.email}
+	.card
+		.card-block
+			p <b>Classes and Subjects:</b>
+			ul
+				each value, index in user.classesAndSubjects
+					li !{value}
+				//a(href='javascript:;' onclick='addClassesAndSubjects();') Add
+				a#classesAndSubjects(href='javascript:;') Add
+	.card
+		.card-block
+			a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
+
+block scripts
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+	script.
+		var uid = "#{session.uid}";
+	script(src="../../public/profileEditScript.js")

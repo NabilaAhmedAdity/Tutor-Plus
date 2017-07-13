@@ -14,15 +14,22 @@ router.get('/:uid/profile', function(req, res, next) {
 	});
 });
 
-router.get('/:uid/profile/edit', function(req, res, next) {
-	const uid = req.params.uid;
+router.post('/profile/classesAndSubjects', function(req, res, next) {
+	console.log("I am here ******************************");
+	//const uid = req.params.uid;
+	//const txt = req.body.txt;
+	//console.log(txt);
+	console.log('body: ' + req.body.txt);
+	return res.send(null);
+	/*
 	User.findOne({
 		_id: uid,
 	})
 	.exec(function(err, user) {
 		if (err) return next(err);
-		return res.render('profileEdit', {user, session: req.session});
+		return res.send(req.body);
 	});
+	*/
 });
 
 module.exports = {

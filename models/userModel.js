@@ -16,10 +16,7 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	subjects: {
-		type: String,
-	},
-	classes: [{
+	classesAndSubjects: [{
 		type: String,
 	}],
 	backgrounds: [{
@@ -28,9 +25,6 @@ const userSchema = new mongoose.Schema({
 	experiences: [{
 		type: String,
 	}],
-	currentAddress: {
-		type: String,
-	},
 	times: [{
 		type: String,
 	}],
@@ -40,6 +34,9 @@ const userSchema = new mongoose.Schema({
 	contactNumbers: [{
 		type: String,
 	}],
+	currentAddress: {
+		type: String,
+	},
 	awardsAndAccomplishments:[{
 		type: String,
 	}],
