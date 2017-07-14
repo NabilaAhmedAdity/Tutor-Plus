@@ -1,5 +1,8 @@
 extends flexLayout.pug
 
+block links
+	link(href="../../public/profileStyle.css", rel='stylesheet')
+
 block header
 	include layoutIn.pug
 
@@ -14,7 +17,8 @@ block content
 			ul#classesAndSubjectsList
 				each value, index in user.classesAndSubjects
 					li !{value}
-				//a(href='javascript:;' onclick='addClassesAndSubjects();') Add
+						a.ml-4(href='javascript:;')
+							i.fa.fa-times(style="color:red")
 			a.ml-4#classesAndSubjects(href='javascript:;')
 				i.fa.fa-plus(aria-hidden="true")
 	.card

@@ -12,7 +12,24 @@ $(document).ready(function(){
                 url: 'http://localhost:3000/'+uid+'/profile/add',                      
                 success: function(data, status) {
                     if (status === 'success') {
-                        $("ul#"+list).append("<li>"+txt+"</li>");
+                        //$("ul#"+list).append("<li>"+txt+"</li>");
+                        const i = document.createElement("i");
+                        i.classList.add("fa");
+                        i.classList.add("fa-times");
+
+                        const a = document.createElement("a");
+                        a.classList.add("ml-4");
+                        a.setAttribute('style', 'color: red');
+                        a.setAttribute('href', 'javascript:;');
+                        a.append(i);
+
+                        const t = document.createTextNode(txt)
+
+                        const newItem = document.createElement("li");
+                        newItem.append(t);
+                        newItem.append(a);
+
+                        $("ul#"+list).append(newItem);
                     }
                 }
             });
