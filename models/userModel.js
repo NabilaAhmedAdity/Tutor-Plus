@@ -45,6 +45,9 @@ const userSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
         ref: 'File'
 	}],
+	status: {
+		type: String,
+	},
 });
 
 mongoose.model('User', userSchema); // set

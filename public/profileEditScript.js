@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    myFunction = function(promptMsg1, promptMsg2, dataType, list) {
+    addFunction = function(promptMsg1, promptMsg2, dataType, list) {
         const txt = prompt(promptMsg1, promptMsg2);
         if (!(txt == null || txt == "")) {
             const data = {};
@@ -16,13 +16,14 @@ $(document).ready(function(){
                         const i = document.createElement("i");
                         i.classList.add("fa");
                         i.classList.add("fa-times");
+                        i.classList.add('red-cross');
 
                         const a = document.createElement("a");
                         a.classList.add("ml-4");
-                        a.setAttribute('style', 'color: red');
+                        a.classList.add('deleteClassesAndSubjects');
                         a.setAttribute('href', 'javascript:;');
                         a.append(i);
-
+            
                         const t = document.createTextNode(txt)
 
                         const newItem = document.createElement("li");
@@ -37,27 +38,27 @@ $(document).ready(function(){
     }
 
     $("a#classesAndSubjects").click(function(){
-        myFunction("Classes And Subjects:", "Class 1 to 5 All", 
+        addFunction("Classes And Subjects:", "Class 1 to 5 All", 
             "classesAndSubjects", "classesAndSubjectsList");
     });
 
     $("a#educationalBackground").click(function(){
-        myFunction("Background:", "School from Willes Little Flower", 
+        addFunction("Background:", "School from Willes Little Flower", 
             "educationalBackground", "educationalBackgroundList");
     });
 
     $("a#experiences").click(function(){
-        myFunction("Experience:", "Two years teaching experience", 
+        addFunction("Experience:", "Two years teaching experience", 
             "experiences", "experiencesList");
     });
 
     $("a#times").click(function(){
-        myFunction("Time:", "Monday 10am - 2pm", 
+        addFunction("Time:", "Monday 10am - 2pm", 
             "times", "timesList");
     });
     
     $("a#contactNumbers").click(function(){
-        myFunction("Contact Number:", "", 
+        addFunction("Contact Number:", "", 
             "contactNumbers", "contactNumbersList");
     });
 
@@ -81,7 +82,7 @@ $(document).ready(function(){
     });
 
     $("a#awardsAndAccomplishments").click(function(){
-        myFunction("Awards and Accomplishments:", "Daily Start award in A'Level", 
+        addFunction("Awards and Accomplishments:", "Daily Start award in A'Level", 
             "awardsAndAccomplishments", "awardsAndAccomplishmentsList");
     });
 
@@ -93,12 +94,26 @@ $(document).ready(function(){
             },
             success: function(response) {
                 const a = document.createElement("a");
-                const newItem = document.createElement("li");
                 a.textContent = (response.name).toString();
                 a.setAttribute('href', "/download/"+(response.path).toString());
-                newItem.appendChild(a);
+
+                const i = document.createElement("i");
+                i.classList.add("fa");
+                i.classList.add("fa-times");
+                i.classList.add('red-cross');
+
+                const a2 = document.createElement("a");
+                a2.classList.add("ml-4");
+                a2.setAttribute('href', 'javascript:;');
+                a2.append(i);
+
+                const newItem = document.createElement("li");
+                newItem.append(a);
+                newItem.append(a2);
+
                 $("ul#certificatesList").append(newItem);
                 $("#status").empty();
+
             }
         });
         //Very important line, it disable the page refresh.
@@ -113,15 +128,110 @@ $(document).ready(function(){
             },
             success: function(response) {
                 const a = document.createElement("a");
-                const newItem = document.createElement("li");
                 a.textContent = (response.name).toString();
                 a.setAttribute('href', "/download/"+(response.path).toString());
-                newItem.appendChild(a);
+
+                const i = document.createElement("i");
+                i.classList.add("fa");
+                i.classList.add("fa-times");
+                i.classList.add('red-cross');
+
+                const a2 = document.createElement("a");
+                a2.classList.add("ml-4");
+                a2.setAttribute('href', 'javascript:;');
+                a2.append(i);
+
+                const newItem = document.createElement("li");
+                newItem.append(a);
+                newItem.append(a2);
+
                 $("ul#sampleResourcesList").append(newItem);
                 $("#status").empty();
+
             }
         });
         //Very important line, it disable the page refresh.
         return false;
-    });    
+    });   
+
+    const deleteFunction = function(type, index, item) {
+        const data = {};
+        data.type = type;
+        data.index = index;
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: 'http://localhost:3000/'+uid+'/profile/delete',         
+            success: function(data, status) {
+                if (status === 'success') {
+                    item.remove();
+                }
+            }
+        });
+    }
+
+    $('.deleteClassesAndSubjects').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("classesAndSubjects", index, item);
+    });
+
+    $('.deleteEducationalBackground').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("educationalBackground", index, item);
+    });
+
+    $('.deleteExperiences').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("experiences", index, item);
+    });
+
+    $('.deleteTimes').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("times", index, item);
+    });
+
+    $('.deleteContactNumber').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("contactNumbers", index, item);
+    });
+
+    $('.deleteAwardsAndAccomplishments').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("awardsAndAccomplishments", index, item);
+    });
+
+    $('.deleteCertificates').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("certificates", index, item);
+    });
+
+    $('.deleteSampleResources').click(function() {
+        const item = $(this).parent();  //list item
+        const index = item.index();
+        deleteFunction("sampleResources", index, item);
+    });
+
+    $('#buttonForm').submit(function() {
+        
+        console.log(r);
+    });
+
+    function validateMyForm()
+    {
+        console.log("I am here");
+        var r = confirm("Are you sure you want to resign from Teacher?");
+        if (r == false) {
+            returnToPreviousPage();
+            return false;
+        }
+        return true;
+    }
 });

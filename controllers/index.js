@@ -74,6 +74,7 @@ router.post('/signup', function(req, res, next) {
 	    		name,
 	    		email,
 	    		password: hash,
+	    		status: "student",
 	    	});
 	    	user.save(function(err) {
 			    if (err) {

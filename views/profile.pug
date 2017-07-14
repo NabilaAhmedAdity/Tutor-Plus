@@ -1,7 +1,7 @@
 extends flexLayout.pug
 
 block links
-	link(href="../../public/profileStyle.css", rel='stylesheet')
+	link(href="../public/profileStyle.css", rel='stylesheet')
 
 block header
 	include layoutIn.pug
@@ -17,85 +17,102 @@ block content
 			ul#classesAndSubjectsList
 				each value, index in user.classesAndSubjects
 					li !{value}
-						a.ml-4(href='javascript:;')
-							i.fa.fa-times(style="color:red")
+						a.ml-4.deleteClassesAndSubjects(href='javascript:;')
+							i.fa.fa-times.red-cross
 			a.ml-4#classesAndSubjects(href='javascript:;')
 				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Educational Background:</b>
-			ul#educationalBackgroundList
-				each value, index in user.educationalBackground
-					li !{value}
-			a.ml-4#educationalBackground(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Experiences:</b>
-			ul#experiencesList
-				each value, index in user.experiences
-					li !{value}
-			a.ml-4#experiences(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Times:</b>
-			ul#timesList
-				each value, index in user.times
-					li !{value}
-			a.ml-4#times(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Contact Number:</b>
-			ul#contactNumbersList
-				each value, index in user.contactNumbers
-					li !{value}
-			a.ml-4#contactNumbers(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Current Address:</b>
-			p.ml-4#currentAddress !{user.currentAddress}
-			a.ml-4#currentAddress(href='javascript:;')
-				i.fa.fa-pencil-square-o(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Awards and Accomplishments:</b>
-			ul#awardsAndAccomplishmentsList
-				each value, index in user.awardsAndAccomplishments
-					li !{value}
-			a.ml-4#awardsAndAccomplishments(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
-	.card
-		.card-block
-			p <b>Scan Copy of Certificates:</b>
-			ul#certificatesList
-				each value, index in user.certificates
-					li 
-						a(href = '/download/'+value.path) !{value.name}
-			form.form-inline#uploadForm(enctype="multipart/form-data" 
-			action="/"+session.uid+"/profile/certificates" method="post")
-				.custom-file
-					input.cutom-file-input(type="file" name="file")
-					input.cutom-file-input(type="submit" value="Upload")
-					span#status
-	.card
-		.card-block
-			p <b>Sample Resources:</b>
-			ul#sampleResourcesList
-				each value, index in user.sampleResources
-					li 
-						a(href = '/download/'+value.path) !{value.name}
-			form.form-inline#uploadForm2(enctype="multipart/form-data" 
-			action="/"+session.uid+"/profile/sampleresources" method="post")
-				.custom-file
-					input.cutom-file-input(type="file" name="file")
-					input.cutom-file-input(type="submit" value="Upload")
-					span#status
-	.card
-		.card-block
-			a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
+	if user.status === "student"
+		form
+			button.btn.btn-primary.btn-lg(type="submit" formmethod="post" formaction="/"+session.uid+"/join") Join as Teacher
+	else if user.status === "teacher"
+		.card
+			.card-block
+				p <b>Educational Background:</b>
+				ul#educationalBackgroundList
+					each value, index in user.educationalBackground
+						li !{value}
+							a.ml-4.deleteEducationalBackground(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#educationalBackground(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Experiences:</b>
+				ul#experiencesList
+					each value, index in user.experiences
+						li !{value}
+							a.ml-4.deleteExperiences(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#experiences(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Times:</b>
+				ul#timesList
+					each value, index in user.times
+						li !{value}
+							a.ml-4.deleteTimes(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#times(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Contact Number:</b>
+				ul#contactNumbersList
+					each value, index in user.contactNumbers
+						li !{value}
+							a.ml-4.deleteContactNumber(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#contactNumbers(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Current Address:</b>
+				p.ml-4#currentAddress !{user.currentAddress}
+				a.ml-4#currentAddress(href='javascript:;')
+					i.fa.fa-pencil-square-o(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Awards and Accomplishments:</b>
+				ul#awardsAndAccomplishmentsList
+					each value, index in user.awardsAndAccomplishments
+						li !{value}
+							a.ml-4.deleteAwardsAndAccomplishments(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#awardsAndAccomplishments(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
+		.card
+			.card-block
+				p <b>Scan Copy of Certificates:</b>
+				ul#certificatesList
+					each value, index in user.certificates
+						li 
+							a(href = '/download/'+value.path) !{value.name}
+							a.ml-4.deleteCertificates(href='javascript:;')
+								i.fa.fa-times.red-cross
+				form.form-inline#uploadForm(enctype="multipart/form-data" 
+				action="/"+session.uid+"/profile/certificates" method="post")
+					.custom-file
+						input.cutom-file-input(type="file" name="file")
+						input.cutom-file-input(type="submit" value="Upload")
+						span#status
+		.card
+			.card-block
+				p <b>Sample Resources:</b>
+				ul#sampleResourcesList
+					each value, index in user.sampleResources
+						li 
+							a(href = '/download/'+value.path) !{value.name}
+							a.ml-4.deleteSampleResources(href='javascript:;')
+								i.fa.fa-times.red-cross
+				form.form-inline#uploadForm2(enctype="multipart/form-data" 
+				action="/"+session.uid+"/profile/sampleresources" method="post")
+					.custom-file
+						input.cutom-file-input(type="file" name="file")
+						input.cutom-file-input(type="submit" value="Upload")
+						span#status
+		form.mb-3#buttonForm(onsubmit="event.preventDefault(); return validateMyForm();")
+			button.btn.btn-danger.btn-lg(type="submit" formmethod="post" formaction="/"+session.uid+"/resign") Resign from Teacher
 
 block scripts
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
@@ -103,4 +120,4 @@ block scripts
 	//To pass variable from jade template file to below script file
 	script.
 		var uid = "#{session.uid}";
-	script(src="../../public/profileEditScript.js")
+	script(src="../public/profileEditScript.js")

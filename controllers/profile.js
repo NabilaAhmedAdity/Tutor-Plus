@@ -19,6 +19,15 @@ router.get('/:uid/profile', function(req, res, next) {
 	});
 });
 
+router.post('/:uid/join', function(req, res, next) {
+	const uid = req.params.uid;
+	User.update({_id: uid}, 
+		{$set: {status: "teacher"}}, function(err) {
+			if (err) next(err);
+			res.redirect('/'+uid+'/profile');
+		});
+});
+
 router.post('/:uid/profile/add', function(req, res, next) {
 	const uid = req.params.uid;
 	const txt = req.body.txt;
@@ -95,6 +104,43 @@ router.post('/:uid/profile/sampleresources',
     	});
 		
     });
+});
+
+router.post('/:uid/profile/delete', function(req, res, next) {
+	const uid = req.params.uid;
+	const type = req.body.type;
+	const index = req.body.index;
+	let file;
+	User.findOne({
+		_id: uid,
+	})
+	.populate('certificates')
+	.populate('sampleResources')
+	.exec(function(err, user) {
+		if (err) next(err);
+		if (type === "certificates" || type === "sampleResources") {
+			file = user[type][index];
+		}
+		user[type].splice(index, 1);
+		user.save(function(err) {
+			if (err) next(err);
+			if(type === "certificates" || type === "sampleResources") {
+				fs.unlink(file.path, function(err) {
+					if (err) next(err);
+					File.findOne({
+						_id: file._id,
+					})
+					.remove(function(err) {
+						if(err) next(err);
+						return res.send(null);
+					});
+				});
+			}
+			else {
+				return res.send(null);
+			}
+		});
+	});
 });
 
 router.get('/download/uploads/sampleresources/:path', function(req, res){
