@@ -78,7 +78,7 @@ $(document).ready(function(){
                 const a = document.createElement("a");
                 const newItem = document.createElement("li");
                 a.textContent = (response.name).toString();
-                a.setAttribute('href', (response.path).toString());
+                a.setAttribute('href', "/download/"+(response.path).toString());
                 newItem.appendChild(a);
                 $("ul#certificatesList").append(newItem);
                 $("#status").empty();
@@ -98,7 +98,7 @@ $(document).ready(function(){
                 const a = document.createElement("a");
                 const newItem = document.createElement("li");
                 a.textContent = (response.name).toString();
-                a.setAttribute('href', (response.path).toString());
+                a.setAttribute('href', "/download/"+(response.path).toString());
                 newItem.appendChild(a);
                 $("ul#sampleResourcesList").append(newItem);
                 $("#status").empty();
