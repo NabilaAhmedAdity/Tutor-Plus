@@ -68,19 +68,34 @@ block content
 			p <b>Scan Copy of Certificates:</b>
 			ul#certificatesList
 				each value, index in user.certificates
-					li !{value.path}
-			form.form-inline(enctype="multipart/form-data")
+					li 
+						a(href = '/download/'+value.path) !{value.name}
+			form.form-inline#uploadForm(enctype="multipart/form-data" 
+			action="/"+session.uid+"/profile/certificates" method="post")
 				.custom-file
-					input.cutom-file-input#file(type="file" name="file")
-					span.custom-file-control
-				a.ml-4#certificates(href='javascript:;')
-					i.fa.fa-plus(aria-hidden="true")
+					input.cutom-file-input(type="file" name="file")
+					input.cutom-file-input(type="submit" value="Upload")
+					span#status
+	.card
+		.card-block
+			p <b>Sample Resources:</b>
+			ul#sampleResourcesList
+				each value, index in user.sampleResources
+					li 
+						a(href = '/download/'+value.path) !{value.name}
+			form.form-inline#uploadForm2(enctype="multipart/form-data" 
+			action="/"+session.uid+"/profile/sampleresources" method="post")
+				.custom-file
+					input.cutom-file-input(type="file" name="file")
+					input.cutom-file-input(type="submit" value="Upload")
+					span#status
 	.card
 		.card-block
 			a.mr-2.ml-3(href="/"+session.uid+"/password/change", role="button") Change Password
 
 block scripts
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+	script(src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
 	//To pass variable from jade template file to below script file
 	script.
 		var uid = "#{session.uid}";

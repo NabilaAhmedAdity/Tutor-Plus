@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const User = require('mongoose').model('User'); // get
+const File = require('mongoose').model('File'); // get
 const flash = require('middlewares/flash');
 const multer = require('multer');
+const fs = require('fs');
 
 router.get('/:uid/profile', function(req, res, next) {
 	const uid = req.params.uid;
 	User.findOne({
 		_id: uid,
 	})
+	.populate('certificates')
+	.populate('sampleResources')
 	.exec(function(err, user) {
 		if (err) return next(err);
 		return res.render('profile', {user, session: req.session});
@@ -36,14 +40,66 @@ router.post('/:uid/profile/currentAddress', function(req, res, next) {
 		});
 });
 
-router.post('/:uid/profile/certificates', multer({dest: 'uploads/certificates/', keepExtensions: true}).single('file'), function(req, res) {
+router.post('/:uid/profile/certificates', 
+	multer({dest: 'uploads/certificates/'}).single('file'), function(req, res, next) {
 	const uid = req.params.uid;
 	const tempPath = req.file.path;
 	const targetPath = tempPath+'_'+req.file.originalname;
+    fs.rename(tempPath, targetPath, function(err) {
+    	if(err) return res.send("Error uploading file.");
+    	const file = new File({
+    		path: targetPath,
+    		name: req.file.originalname,
+    	});
+    	file.save(function(err) {
+    		if(err) next(err);
+    		User.update({_id: uid},
+    			{$push: {certificates: file._id}}, function(err) {
+    				if(err) next(err);
+    				const data = {};
+    				data.path = targetPath;
+    				data.name = req.file.originalname;
+    				res.send(data);
+    			});
+    	});
+		
+    });
+});
 
-    console.log(tempPath);
-    console.log(targetPath);
-    return res.send(null);
+router.get('/download/uploads/certificates/:path', function(req, res){
+	const path = 'uploads/certificates/'+req.params.path;
+	return res.download(path);
+});
+
+router.post('/:uid/profile/sampleresources', 
+	multer({dest: 'uploads/sampleresources/'}).single('file'), function(req, res, next) {
+	const uid = req.params.uid;
+	const tempPath = req.file.path;
+	const targetPath = tempPath+'_'+req.file.originalname;
+    fs.rename(tempPath, targetPath, function(err) {
+    	if(err) return res.send("Error uploading file.");
+    	const file = new File({
+    		path: targetPath,
+    		name: req.file.originalname,
+    	});
+    	file.save(function(err) {
+    		if(err) next(err);
+    		User.update({_id: uid},
+    			{$push: {sampleResources: file._id}}, function(err) {
+    				if(err) next(err);
+    				const data = {};
+    				data.path = targetPath;
+    				data.name = req.file.originalname;
+    				res.send(data);
+    			});
+    	});
+		
+    });
+});
+
+router.get('/download/uploads/sampleresources/:path', function(req, res){
+	const path = 'uploads/sampleresources/'+req.params.path;
+	return res.download(path);
 });
 
 module.exports = {

@@ -2,7 +2,7 @@ $(document).ready(function(){
     myFunction = function(promptMsg1, promptMsg2, dataType, list) {
         const txt = prompt(promptMsg1, promptMsg2);
         if (!(txt == null || txt == "")) {
-            var data = {};
+            const data = {};
             data.txt = txt;
             data.type = dataType;
             $.ajax({
@@ -47,7 +47,7 @@ $(document).ready(function(){
     $("a#currentAddress").click(function(){
         const txt = prompt("Current Address:", "598 Block-C, Malibagh Chowdhury Para, Dhaka-1219");
         if (!(txt == null || txt == "")) {
-            var data = {};
+            const data = {};
             data.txt = txt;
             $.ajax({
                 type: 'POST',
@@ -64,7 +64,47 @@ $(document).ready(function(){
     });
 
     $("a#awardsAndAccomplishments").click(function(){
-        myFunction("Awards and Accomplishments:", "7 A's in O'Level", 
+        myFunction("Awards and Accomplishments:", "Daily Start award in A'Level", 
             "awardsAndAccomplishments", "awardsAndAccomplishmentsList");
     });
+
+    $('#uploadForm').submit(function() {
+        $("#status").empty().text("File is uploading...");
+        $(this).ajaxSubmit({
+            error: function(xhr) {
+                status('Error: ' + xhr.status);
+            },
+            success: function(response) {
+                const a = document.createElement("a");
+                const newItem = document.createElement("li");
+                a.textContent = (response.name).toString();
+                a.setAttribute('href', (response.path).toString());
+                newItem.appendChild(a);
+                $("ul#certificatesList").append(newItem);
+                $("#status").empty();
+            }
+        });
+        //Very important line, it disable the page refresh.
+        return false;
+    });   
+
+    $('#uploadForm2').submit(function() {
+        $("#status").empty().text("File is uploading...");
+        $(this).ajaxSubmit({
+            error: function(xhr) {
+                status('Error: ' + xhr.status);
+            },
+            success: function(response) {
+                const a = document.createElement("a");
+                const newItem = document.createElement("li");
+                a.textContent = (response.name).toString();
+                a.setAttribute('href', (response.path).toString());
+                newItem.appendChild(a);
+                $("ul#sampleResourcesList").append(newItem);
+                $("#status").empty();
+            }
+        });
+        //Very important line, it disable the page refresh.
+        return false;
+    });    
 });
