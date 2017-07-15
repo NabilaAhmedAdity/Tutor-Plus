@@ -111,8 +111,8 @@ block content
 						input.cutom-file-input(type="file" name="file")
 						input.cutom-file-input(type="submit" value="Upload")
 						span#status
-		form.mb-3#buttonForm(onsubmit="event.preventDefault(); return validateMyForm();")
-			button.btn.btn-danger.btn-lg(type="submit" formmethod="post" formaction="/"+session.uid+"/resign") Resign from Teacher
+		form.mb-3#resignButton(method="post" action="/"+session.uid+"/resign" onsubmit="return confirm('Do you really want to resign from teacher?');")
+			button.btn.btn-danger.btn-lg Resign from Teacher
 
 block scripts
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")

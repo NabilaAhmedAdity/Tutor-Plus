@@ -218,20 +218,5 @@ $(document).ready(function(){
         const index = item.index();
         deleteFunction("sampleResources", index, item);
     });
-
-    $('#buttonForm').submit(function() {
-        
-        console.log(r);
-    });
-
-    function validateMyForm()
-    {
-        console.log("I am here");
-        var r = confirm("Are you sure you want to resign from Teacher?");
-        if (r == false) {
-            returnToPreviousPage();
-            return false;
-        }
-        return true;
-    }
+    
 });
