@@ -25,7 +25,10 @@ require('./models/fileModel.js');
 
 /* Route */
 require('./controllers/index.js').addRouter(app);
+require('./controllers/downloadRoute.js').addRouter(app);
 require('./controllers/profile.js').addRouter(app);
+require('./controllers/profileEdit.js').addRouter(app);
+require('./controllers/joinResign.js').addRouter(app);
 
 //Express error handling middleware
 app.use(function(err, req, res, next) {

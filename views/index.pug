@@ -1,23 +1,22 @@
 extends flexLayout.pug
 
 block header
-	if session.login === true
+	if login === true
 		include layoutIn.pug
 	else
 		include layoutOut.pug
 
 block content
 	each value, indx in users
-		if value.status === "teacher"
-			.card#external-card
-				.card-block
-					.media
-						img.d-flex.mr-3(src="...")
-						.media-body
-							h4.mt-0 !{value.name}
-							h5 Classes and Subjects:
-							each cas, i in value.classesAndSubjects
-								div.m-3(style="display: inline-block;")
-									span.p-1#cas !{cas}
-							br
-							a(href='/'+value._id+'/profile') More information
+		.card#external-card
+			.card-block
+				.media
+					img.d-flex.mr-3(src="...")
+					.media-body
+						h4.mt-0 !{value.name}
+						h5 Classes and Subjects:
+						each cas, i in value.classesAndSubjects
+							div.m-3(style="display: inline-block;")
+								span.p-1#cas !{cas}
+						br
+						a(target='_blank' href='/'+value._id+'/profile') More information

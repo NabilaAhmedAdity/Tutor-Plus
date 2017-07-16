@@ -6,11 +6,14 @@ const flash = require('middlewares/flash');
 
 router.get('/', function(req, res, next) {
 	User.find({
-
+		status: 'teacher',
 	})
 	.exec(function(err, users) {
 		if (err) return next(err);
-		return res.render('index', {users, session: req.session});
+		if (req.session.login === true)
+			return res.render('index', {users, login: true, 
+				user: {_id: req.session.uid, name: req.session.name}});
+		else return res.render('index', {users, login: false});
 	});
 });
 

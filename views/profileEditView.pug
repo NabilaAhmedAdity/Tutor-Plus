@@ -11,20 +11,20 @@ block content
 		.card-block
 			p <b>Name:</b>		!{user.name}
 			p <b>Email:</b>		!{user.email}
-	.card
-		.card-block
-			p <b>Classes and Subjects:</b>
-			ul#classesAndSubjectsList
-				each value, index in user.classesAndSubjects
-					li !{value}
-						a.ml-4.deleteClassesAndSubjects(href='javascript:;')
-							i.fa.fa-times.red-cross
-			a.ml-4#classesAndSubjects(href='javascript:;')
-				i.fa.fa-plus(aria-hidden="true")
 	if user.status === "student"
 		form
-			button.btn.btn-primary.btn-lg(type="submit" formmethod="post" formaction="/"+session.uid+"/join") Join as Teacher
+			button.btn.btn-primary.btn-lg(type="submit" formmethod="post" formaction="/"+user._id+"/join") Join as Teacher
 	else if user.status === "teacher"
+		.card
+			.card-block
+				p <b>Classes and Subjects:</b>
+				ul#classesAndSubjectsList
+					each value, index in user.classesAndSubjects
+						li !{value}
+							a.ml-4.deleteClassesAndSubjects(href='javascript:;')
+								i.fa.fa-times.red-cross
+				a.ml-4#classesAndSubjects(href='javascript:;')
+					i.fa.fa-plus(aria-hidden="true")
 		.card
 			.card-block
 				p <b>Educational Background:</b>
@@ -91,7 +91,7 @@ block content
 							a.ml-4.deleteCertificates(href='javascript:;')
 								i.fa.fa-times.red-cross
 				form.form-inline#uploadForm(enctype="multipart/form-data" 
-				action="/"+session.uid+"/profile/certificates" method="post")
+				action="/"+user._id+"/profile/certificates" method="post")
 					.custom-file
 						input.cutom-file-input(type="file" name="file")
 						input.cutom-file-input(type="submit" value="Upload")
@@ -106,12 +106,12 @@ block content
 							a.ml-4.deleteSampleResources(href='javascript:;')
 								i.fa.fa-times.red-cross
 				form.form-inline#uploadForm2(enctype="multipart/form-data" 
-				action="/"+session.uid+"/profile/sampleresources" method="post")
+				action="/"+user._id+"/profile/sampleresources" method="post")
 					.custom-file
 						input.cutom-file-input(type="file" name="file")
 						input.cutom-file-input(type="submit" value="Upload")
 						span#status
-		form.mb-3#resignButton(method="post" action="/"+session.uid+"/resign" onsubmit="return confirm('Do you really want to resign from teacher?');")
+		form.mb-3#resignButton(method="post" action="/"+user._id+"/resign" onsubmit="return confirm('Do you really want to resign from teacher?');")
 			button.btn.btn-danger.btn-lg Resign from Teacher
 
 block scripts
@@ -119,5 +119,5 @@ block scripts
 	script(src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
 	//To pass variable from jade template file to below script file
 	script.
-		var uid = "#{session.uid}";
+		var uid = "#{user._id}";
 	script(src="../public/profileEditScript.js")
