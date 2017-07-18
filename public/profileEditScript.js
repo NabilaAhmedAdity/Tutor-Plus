@@ -12,7 +12,6 @@ $(document).ready(function(){
                 url: 'http://localhost:3000/'+uid+'/profile/add',                      
                 success: function(data, status) {
                     if (status === 'success') {
-                        //$("ul#"+list).append("<li>"+txt+"</li>");
                         const i = document.createElement("i");
                         i.classList.add("fa");
                         i.classList.add("fa-times");
@@ -20,17 +19,20 @@ $(document).ready(function(){
 
                         const a = document.createElement("a");
                         a.classList.add("ml-4");
-                        a.classList.add('deleteClassesAndSubjects');
-                        a.setAttribute('href', 'javascript:;');
+                        //a.setAttribute('href', 'javascript:;');
                         a.append(i);
-            
+                        
                         const t = document.createTextNode(txt)
 
                         const newItem = document.createElement("li");
                         newItem.append(t);
                         newItem.append(a);
 
-                        $("ul#"+list).append(newItem);
+                        $("ul#"+list).append(newItem).on('click', 'li a', function() {
+                            //const cnt =  $("ul#"+list).children().length;;
+                            //console.log(cnt);
+                            alert('Plese reload the page to delete.')
+                        });
                     }
                 }
             });
@@ -218,5 +220,20 @@ $(document).ready(function(){
         const index = item.index();
         deleteFunction("sampleResources", index, item);
     });
+
+    $('#uploadImage').submit(function() {
+        $("#status").empty().text("File is uploading...");
+         $(this).ajaxSubmit({
+            error: function(xhr) {
+                status('Error: ' + xhr.status);
+            },
+            success: function(response) {
+                $('#image').attr('src', '../'+response.path);
+            }
+        });
+        $("#status").empty();
+        //Very important line, it disable the page refresh.
+        return false;
+    });   
     
 });

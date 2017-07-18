@@ -11,6 +11,9 @@ const fileSchema = new mongoose.Schema({
 			type: Date,
 			default: Date.now,
 	},
+	userEmail: {
+		type: String,
+	},
 });
 
 mongoose.model('File', fileSchema);

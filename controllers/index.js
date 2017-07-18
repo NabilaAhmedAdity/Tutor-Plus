@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('mongoose').model('User'); // get
+const File = require('mongoose').model('File'); // get
 const flash = require('middlewares/flash');
 
 router.get('/', function(req, res, next) {
 	User.find({
 		status: 'teacher',
 	})
+	.populate('image')
 	.exec(function(err, users) {
 		if (err) return next(err);
 		if (req.session.login === true)
@@ -73,24 +75,33 @@ router.post('/signup', function(req, res, next) {
 	    	return next(err);
 	    }
 	    else {
-	    	const user = new User({
-	    		name,
-	    		email,
-	    		password: hash,
-	    		status: "student",
+	    	const file = new File({
+	    		path: 'public/image/avatar.jpeg',
+	    		name: 'avatar.jpeg',
+	    		userEmail: email,
 	    	});
-	    	user.save(function(err) {
-			    if (err) {
-			      if (err.code === 11000) {
-			        req.flash('error', 'Email address already exists');
-			      } else {
-			        return next(err);
-			      }
-			      return res.redirect('/signup');
-			    }
-			    req.flash('success', 'Successfully registered');
-			    return res.redirect('/');
-			});
+	    	file.save(function(err) {
+	    		if(err) next(err);
+	    		const user = new User({
+		    		name,
+		    		email,
+		    		password: hash,
+		    		status: "student",
+		    		image: file._id,
+		    	});
+		    	user.save(function(err) {
+				    if (err) {
+				      if (err.code === 11000) {
+				        req.flash('error', 'Email address already exists');
+				      } else {
+				        return next(err);
+				      }
+				      return res.redirect('/signup');
+				    }
+				    req.flash('success', 'Successfully registered');
+				    return res.redirect('/');
+				});
+	    	});
 	    }
 	});
 });

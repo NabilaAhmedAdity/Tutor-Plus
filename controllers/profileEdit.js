@@ -81,6 +81,50 @@ router.post('/sampleresources',
     });
 });
 
+const imageFilter = function (req, file, cb) {
+    // accept image only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+
+router.post('/image', 
+	multer({dest: 'public/image', fileFilter: imageFilter}).single('file'),
+	function(req, res, next) {
+	const uid = req.session.uid;
+	const targetPath = req.file.path;
+
+	User.findOne({
+		_id: uid,
+	})
+	.populate('image')
+	.exec(function(err, user) {
+		File.findOne({
+			_id: user.image._id,
+		})
+		.remove(function(err) {
+			if (err) next(err);
+			const file = new File({
+	    		path: targetPath,
+	    		name: req.file.originalname,
+	    		userEmail: req.session.email,
+	    	});
+	    	file.save(function(err) {
+	    		if(err) next(err);
+	    		User.update({_id: uid},
+	    			{$set: {image: file._id}}, function(err) {
+	    				if(err) next(err);
+	    				const data = {};
+	    				data.path = targetPath;
+	    				data.name = req.file.originalname;
+	    				res.send(data);
+	    			});
+	    	});
+		});
+	});
+});
+
 /* Delete Routes */
 router.post('/delete', function(req, res, next) {
 	const uid = req.session.uid;

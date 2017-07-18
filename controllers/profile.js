@@ -8,6 +8,7 @@ router.get('/:uid/profile', function(req, res, next) {
 	User.findOne({
 		_id: uid,
 	})
+	.populate('image')
 	.populate('certificates')
 	.populate('sampleResources')
 	.exec(function(err, user) {
