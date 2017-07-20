@@ -28,18 +28,20 @@ $(document).ready(function(){
                         newItem.append(a);
                         
                         /*
-                        // No idea why .one is not working
+                        //It works till I reload the page
                         var final = $("ul#"+list);
-                        final.one('click', 'li a', function () {
+                        final.off('click');
+                        final.on('click', 'li a', function () {
                             var idx = final.children().index($(this).closest('li'));
                             deleteFunction(dataType, idx, $(this).closest('li'));
                         });
                         $(final).append(newItem);
                         */
-
+                    
                         $("ul#"+list).append(newItem).on('click', 'li a', function() {
                              alert('Please reload the page to delete');
                         });
+                        
                     }
                 }
             });
