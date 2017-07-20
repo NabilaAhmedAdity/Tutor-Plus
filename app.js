@@ -22,10 +22,12 @@ app.use(flash()); //To flash message
 /* Model */
 require('./models/userModel.js');
 require('./models/fileModel.js');
+require('./models/messageModel.js');
 
 /* Route */
 require('./controllers/index.js').addRouter(app);
 require('./controllers/downloadRoute.js').addRouter(app);
+require('./controllers/message.js').addRouter(app);
 require('./controllers/profile.js').addRouter(app);
 require('./controllers/profileEdit.js').addRouter(app);
 require('./controllers/joinResign.js').addRouter(app);
