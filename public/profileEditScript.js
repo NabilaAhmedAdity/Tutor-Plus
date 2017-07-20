@@ -19,7 +19,6 @@ $(document).ready(function(){
 
                         const a = document.createElement("a");
                         a.classList.add("ml-4");
-                        //a.setAttribute('href', 'javascript:;');
                         a.append(i);
                         
                         const t = document.createTextNode(txt)
@@ -27,11 +26,19 @@ $(document).ready(function(){
                         const newItem = document.createElement("li");
                         newItem.append(t);
                         newItem.append(a);
+                        
+                        /*
+                        // No idea why .one is not working
+                        var final = $("ul#"+list);
+                        final.one('click', 'li a', function () {
+                            var idx = final.children().index($(this).closest('li'));
+                            deleteFunction(dataType, idx, $(this).closest('li'));
+                        });
+                        $(final).append(newItem);
+                        */
 
                         $("ul#"+list).append(newItem).on('click', 'li a', function() {
-                            //const cnt =  $("ul#"+list).children().length;;
-                            //console.log(cnt);
-                            alert('Plese reload the page to delete.')
+                             alert('Please reload the page to delete');
                         });
                     }
                 }
@@ -157,6 +164,7 @@ $(document).ready(function(){
     });   
 
     const deleteFunction = function(type, index, item) {
+        //console.log(item);
         const data = {};
         data.type = type;
         data.index = index;
@@ -225,6 +233,7 @@ $(document).ready(function(){
         $("#status").empty().text("File is uploading...");
          $(this).ajaxSubmit({
             error: function(xhr) {
+                alert('Please upload a file with extension jpg|jpeg|png|gif');
                 status('Error: ' + xhr.status);
             },
             success: function(response) {
