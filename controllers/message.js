@@ -17,17 +17,17 @@ router.post('/submit', function(req, res, next) {
 	Message.findOne({
 		$or: [
 			{ $and: [{user1: toid}, {user2: fromid}] },
-			{ $and: [{user2: fromid}, {user1: toid}] },
+			{ $and: [{user1: fromid}, {user2: toid}] },
 		]
 	}, function(err, message) {
 		if (err) next(err);
-		if (message ===  null) { //message is an empty array
+		if (message ===  null) {
 			const newMessage = new Message({
-				user1: toid,
-				user2: fromid,
+				user1: fromid,
+				user2: toid,
 				body: {
 					text: text,
-					from: fromid, //don't forget to change in two place
+					from: 1, //don't forget to change in two place
 				},
 			});
 			newMessage.save(function(err) {
@@ -44,10 +44,32 @@ router.post('/submit', function(req, res, next) {
 			});
 		}
 		else {
+			let fromUser;
+			if (message.user1.toString() === fromid.toString())
+				fromUser = 1;
+			else
+				fromUser = 2;
 			Message.update({_id: message._id},
-				{$push: {body: {text: text}}}, function(err) {
+				{$push: {body: {text: text, from: fromUser}}}, function(err) {
 					if (err) next(err);
-					res.send(err);
+					//Doing pull and push to change the position of the message.
+					User.update({_id: fromid},
+						{$pull: {messages: message._id}}, function(err) {
+							if (err) next(err);
+							User.update({_id: fromid},
+								{$push: {messages: message._id}}, function(err) {
+									if (err) next(err);
+									User.update({_id: toid},
+									{$pull: {messages: message._id}}, function(err) {
+										if (err) next(err);
+										User.update({_id: toid},
+											{$push: {messages: message._id}}, function(err) {
+												if (err) next(err);
+												return res.send(null);
+											});
+									});
+								});
+						});
 				});
 		}
 		
@@ -65,22 +87,35 @@ router.get('/:uid', [loginUser], function(req, res, next) {
 	.exec(function(err, user) {
 		if (err) next(err);
 		return res.render('message.pug', {user});
-	})
+	});
 });
 
-router.get('/:uid/:indx', [loginUser], function(req, res, next) {
+router.get('/:uid/:mid', [loginUser], function(req, res, next) {
 	const uid = req.params.uid;
-	const indx = req.params.indx;
+	const mid = req.params.mid;
+	let indx = -1; //user has no access to this message
 	User.findOne({
 		_id: uid,
 	})
 	.populate({path: 'messages', 
 		populate:{path: 'user1 user2',
-		populate: {path: 'image from'}}})
+		populate: {path: 'image'}}})
 	.exec(function(err, user) {
 		if (err) next(err);
-		return res.render('messageHistory.pug', {user, indx: user.messages.length-1-indx});
-	})
+		for(let i=0; i<user.messages.length; i++) {
+			if (user.messages[i]._id.toString() === mid.toString()) {
+				indx = i;
+				break;
+			}
+		}
+		if (indx === -1) {
+			req.flash('error', 'You have to login');
+			return res.redirect('/login');
+		}
+		else {
+			return res.render('history.pug', {user, indx});
+		}
+	});
 });
 
 module.exports = {

@@ -14,8 +14,7 @@ const messageSchema = new mongoose.Schema({
 				type: String,
 			},
 			from: {
-				type: mongoose.Schema.Types.ObjectId,
-        		ref: 'User'
+				type: Number,
 			},
 			date: {
 				type: Date,
