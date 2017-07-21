@@ -22,7 +22,7 @@ $(document).ready(function(){
 	            type: 'POST',
 	            data: JSON.stringify(data),
 	            contentType: 'application/json',
-	            url: 'http://localhost:3000/'+uid+'/message/submit',         
+	            url: 'http://localhost:3000/message/submit',         
 	            success: function(data, status) {
 	                if (status === 'success') {
 	                	$('#messageLabel').html('Message sent')

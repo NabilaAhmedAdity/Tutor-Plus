@@ -20,8 +20,9 @@ block content
 								span.p-1#cas !{cas}
 						br
 						a(target='_blank' href='/'+value._id+'/profile') More information
-						a.ml-4.messageTag(data-toggle="modal" data-target="#messageModal" href='javascript:;' data-toid=value._id data-fromid=user._id)
-							i.fa.fa-envelope(aria-hidden="true")
+						if login === true
+							a.ml-4.messageTag(data-toggle="modal" data-target="#messageModal" href='javascript:;' data-toid=value._id data-fromid=user._id)
+								i.fa.fa-envelope(aria-hidden="true")
 
 	.modal#messageModal(role="dialog" aria-hidden="true")
 		.modal-dialog(role="document")
@@ -36,8 +37,6 @@ block content
 						button#submitButton(type="button" class="btn btn-primary") Send message
 block scripts
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-	script.
-		var uid = "#{user._id}";
 	script(src="../public/indexScript.js")
 
 							

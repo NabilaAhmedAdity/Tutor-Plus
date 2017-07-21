@@ -1,20 +1,26 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-	date: {
-			type: Date,
-			default: Date.now,
-	},
-	from: {
+	user1: {
 		type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
 	},
-	to: {
+	user2: {
 		type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
 	},
 	body: [{
-			type: String,
+			text: {
+				type: String,
+			},
+			from: {
+				type: mongoose.Schema.Types.ObjectId,
+        		ref: 'User'
+			},
+			date: {
+				type: Date,
+				default: Date.now,
+			},
 	}],
 });
 
