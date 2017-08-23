@@ -28,7 +28,7 @@ block content
 		.card
 			.card-block
 				p <b>Classes and Subjects:</b>
-				ul#classesAndSubjectsList
+				ul#classesAndSubjectsList.d
 					each value, index in user.classesAndSubjects
 						li !{value}
 							a.ml-4.deleteClassesAndSubjects(href='javascript:;')
@@ -38,7 +38,7 @@ block content
 		.card
 			.card-block
 				p <b>Educational Background:</b>
-				ul#educationalBackgroundList
+				ul#educationalBackgroundList.d
 					each value, index in user.educationalBackground
 						li !{value}
 							a.ml-4.deleteEducationalBackground(href='javascript:;')
@@ -48,7 +48,7 @@ block content
 		.card
 			.card-block
 				p <b>Experiences:</b>
-				ul#experiencesList
+				ul#experiencesList.d
 					each value, index in user.experiences
 						li !{value}
 							a.ml-4.deleteExperiences(href='javascript:;')
@@ -58,7 +58,7 @@ block content
 		.card
 			.card-block
 				p <b>Times:</b>
-				ul#timesList
+				ul#timesList.d
 					each value, index in user.times
 						li !{value}
 							a.ml-4.deleteTimes(href='javascript:;')
@@ -68,7 +68,7 @@ block content
 		.card
 			.card-block
 				p <b>Contact Number:</b>
-				ul#contactNumbersList
+				ul#contactNumbersList.d
 					each value, index in user.contactNumbers
 						li !{value}
 							a.ml-4.deleteContactNumber(href='javascript:;')
@@ -84,7 +84,7 @@ block content
 		.card
 			.card-block
 				p <b>Awards and Accomplishments:</b>
-				ul#awardsAndAccomplishmentsList
+				ul#awardsAndAccomplishmentsList.d
 					each value, index in user.awardsAndAccomplishments
 						li !{value}
 							a.ml-4.deleteAwardsAndAccomplishments(href='javascript:;')

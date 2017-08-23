@@ -37,10 +37,12 @@ $(document).ready(function(){
                         });
                         $(final).append(newItem);
                         */
-                    
+                        $("ul#"+list).append(newItem);
+                        /*
                         $("ul#"+list).append(newItem).on('click', 'li a', function() {
                              alert('Please reload the page to delete');
                         });
+                        */
                         
                     }
                 }
@@ -165,6 +167,15 @@ $(document).ready(function(){
         return false;
     });   
 
+    $("ul.d").on('click', 'li a', function () {
+        const element = $(this);
+        const item = element.parent();  //list item
+        const index = item.index();
+        const type = element.closest('.card-block').children('a').attr('id');
+        alert(type, index);
+        deleteFunction(type, index, item);
+    });
+
     const deleteFunction = function(type, index, item) {
         //console.log(item);
         const data = {};
@@ -183,6 +194,7 @@ $(document).ready(function(){
         });
     }
 
+    /*
     $('.deleteClassesAndSubjects').click(function() {
         const item = $(this).parent();  //list item
         const index = item.index();
@@ -218,7 +230,7 @@ $(document).ready(function(){
         const index = item.index();
         deleteFunction("awardsAndAccomplishments", index, item);
     });
-
+    */
     $('.deleteCertificates').click(function() {
         const item = $(this).parent();  //list item
         const index = item.index();
