@@ -18,5 +18,9 @@ block content
 							img.d-flex.mr-3.image-fluid(src='../'+value.user1.image.path style="max-width: 100%; height: auto;" width="50" height="50")
 						.media-body
 							p !{value.body[value.body.length-1].text.substr(0, 100)}
+							if (value.user1._id.toString() === user._id.toString())
+								small !{value.user2.name}
+							else
+								small !{value.user1.name}
 
 							
